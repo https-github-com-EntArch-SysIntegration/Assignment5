@@ -33,7 +33,6 @@ def item_list(request):
                 request.session["addressId"] = address.addressId
         except Address.DoesNotExist:
             address = None
-
     return render(request,
                   'home.html',
                   {'categories': categories,
@@ -59,6 +58,11 @@ class AddressView(LoginRequiredMixin,DetailView):
     model = Address
     template_name = 'address.html'
     login_url = '/users/login/'
+
+    def form_valid(self, form):
+        form.is_valid()
+        form.instance.customer = self.request.user
+        return super().form_valid(form)
 
 class UpdateAddressView(LoginRequiredMixin,UpdateView):
     model = Address

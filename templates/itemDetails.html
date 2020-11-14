@@ -25,11 +25,11 @@
         {%else%}
             <h5>Contact - </h5>
             <p style="padding-left: 100px; margin-top: -30px">{{item.itemOwner}}</p>
-            <p style="padding-left: 100px">address1: {{item.itemOwner.address.address1}}</p>
-            <p style="padding-left: 100px">address2 - {{item.itemOwner.address.address2}}</p>
-            <p style="padding-left: 100px">city - {{item.itemOwner.address.city}}</p>
-            <p style="padding-left: 100px">state - {{item.itemOwner.address.zip_code}}</p>
-            <p style="padding-left: 100px">country - {{item.itemOwner.address.country}}</p>
+            <p style="padding-left: 100px">{{item.itemOwner.address.address1}}</p>
+            <p style="padding-left: 100px">{{item.itemOwner.address.address2}}</p>
+            <p style="padding-left: 100px">{{item.itemOwner.address.city}}</p>
+            <p style="padding-left: 100px">{{item.itemOwner.address.zip_code}}</p>
+            <p style="padding-left: 100px">{{item.itemOwner.address.country}}</p>
         {%endif%}
     </div>
 

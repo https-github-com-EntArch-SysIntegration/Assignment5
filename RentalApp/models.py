@@ -18,8 +18,7 @@ class Address(models.Model):
     address2 = models.CharField(
         "Address line 2",
         max_length=1024,
-        null=True,
-        blank=True,
+        blank=True
     )
 
     zip_code = models.CharField(
