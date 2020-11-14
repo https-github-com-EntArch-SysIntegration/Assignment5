@@ -1,12 +1,7 @@
-import self as self
-from crispy_forms.bootstrap import FormActions
-from crispy_forms.layout import Submit, Button
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.core.handlers import exception
 from django.forms import forms
-from django.http import request
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import redirect
 
 # Create your views here.
 from .forms import CustomUserCreationForm
@@ -18,7 +13,6 @@ from django.contrib import messages
 
 from .models import Category, Item, Address
 from .forms import CustomUserSignupForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 def item_list(request):
