@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  {{ product.name }}
+{% endblock %}
+{% block content %}
+ <div class="container1">
+
+  <!-- Left Column / Headphones Image -->
+  <div class="left-column">
+    <img src="{% if item.itemImage %}{{ item.itemImage.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}" alt="">
+  </div>
+
+
+  <!-- Right Column -->
+  <div class="right-column">
+
+    <!-- Product Description -->
+    <div class="product-description">
+      <span>{{ item.category }}</span>
+      <h1>{{ item.itemName }}</h1>
+      <p>{{ item.itemDescription|linebreaks }}</p>
+        {%if not item.itemOwner.address %}
+        <p>No cantact details</p>
+        {%else%}
+            <h5>Contact - </h5>
+            <p style="padding-left: 100px; margin-top: -30px">{{item.itemOwner}}</p>
+            <p style="padding-left: 100px">address1: {{item.itemOwner.address.address1}}</p>
+            <p style="padding-left: 100px">address2 - {{item.itemOwner.address.address2}}</p>
+            <p style="padding-left: 100px">city - {{item.itemOwner.address.city}}</p>
+            <p style="padding-left: 100px">state - {{item.itemOwner.address.zip_code}}</p>
+            <p style="padding-left: 100px">country - {{item.itemOwner.address.country}}</p>
+        {%endif%}
+    </div>
+
+    <!-- Product Pricing -->
+    <div class="product-price">
+      <span>Rent: ${{ item.costPerItem }} per day</span>
+    </div>
+      <br><br><a href="{% url 'RentalApp:item_list' %}" class="btn btn-secondary ml-2">Back</a>
+  </div>
+ </div>
+{% endblock %}

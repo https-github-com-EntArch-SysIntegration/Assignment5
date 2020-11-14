@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, UserCreationForm
-from .models import Customer, Address, Category, Item
+from .models import Customer, Address, Category, Item, RentItems
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -40,10 +40,22 @@ class ItemAdmin(admin.ModelAdmin):
                     'itemDescription',
                     'itemAddedDate']
 
+class RentItemsAdmin(admin.ModelAdmin):
+    model = RentItems
+    list_display = ['item',
+                    'rentStartDate',
+                    'rentEndDate',
+                    'renterName',
+                    'renterPhoneNumber',
+                    'totalCost'
+                    ]
+
+
 admin.site.register(Customer, UserAdmin)
 admin.site.register(Address,AddressAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Item,ItemAdmin)
+admin.site.register(RentItems,RentItemsAdmin)
 from django.contrib import admin
 
 # Register your models here.

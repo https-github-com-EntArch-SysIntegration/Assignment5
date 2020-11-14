@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import Customer
+from .models import Customer, Item, Address
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -44,6 +44,28 @@ class UserChangeForm(forms.ModelForm):
         # field does not have access to the initial value
         return self.initial["password"]
 
+class ItemCreationForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = '__all__'
+        widgets = {
+            'itemAddedDate': forms.HiddenInput,
+        }
+
+    def clean_itemImage(self):
+        itemImage = self.cleaned_data['itemImage']
+        valid_extensions = ['jpg', 'jpeg']
+        extension = itemImage.rsplit('.', 1)[1].lower()
+        if extension not in valid_extensions:
+            raise forms.ValidationError('The given product Image file does not ' \
+                                        'match valid image extensions.')
+        return itemImage
+
+class CreateAddressForm(forms.ModelForm):
+    class Meta:
+        model : Address
+        fields = '__all__'
+
 class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
@@ -56,3 +78,9 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = Customer
         fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
+
+class CustomUserSignupForm(UserCreationForm):
+    class Meta:
+        model = Customer
+        fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
+
