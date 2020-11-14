@@ -1,15 +1,13 @@
-from django.conf.urls import url
 from django.urls import path
-from . import views
-from .views import AddAddressView, SignUpView, UpdateAddressView, AddProductView, EditProductView, DeleteProductView, AddressView
+from .views import AddAddressView, SignUpView, UpdateAddressView, AddProductView, EditProductView, DeleteProductView, AddressView, item_list, myProducts,item_details, product_details
 from django.contrib.auth import views as auth_views
 
 app_name = 'RentalApp'
 urlpatterns = [
-    path('', views.item_list, name='item_list'),
-    path('myproducts/',views.myProducts, name='my_products'),
-    path('item/<int:id>/', views.item_details,name='item_details'),
-    path('product/<int:id>', views.product_details, name='product_details'),
+    path('', item_list, name='item_list'),
+    path('myproducts/',myProducts, name='my_products'),
+    path('item/<int:id>/', item_details,name='item_details'),
+    path('product/<int:id>', product_details, name='product_details'),
     path('address/<int:pk>/',AddressView.as_view(),name='address'),
     path('product/add/',AddProductView.as_view(), name='add_product'),
     path('product/<int:pk>/edit/',EditProductView.as_view(), name='edit_product'),
