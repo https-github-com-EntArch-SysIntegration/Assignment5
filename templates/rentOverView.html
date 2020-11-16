@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div id="login">
+    <h5 class="text-center pt-5">Rent Overview</h5>
+    <div id="login-row" class="row justify-content-center align-items-center">
+        <div id="login-column" class="col-md-6">
+            <div id="login-box" class="col-md-12">
+               <p>{{object.item.itemName}}</p>
+                <p>{{object.item.itemName}}</p>
+                    <p>{{object.rentStartDate}}</p>
+                    <p>{{object.rentEndDate}}</p>
+                    <p>{{object.renterName}}</p>
+                    <p>{{object.renterPhoneNumber}}</p>
+                    <p>{{object.totalCost}}</p>
+                <a href="{% url 'RentalApp:rental_history' %}" class="btn btn-secondary ml-2">
+                    Back</a>
+            </div>
+        </div>
+    </div>
+   </div>
+<script>
+
+</script>
+{% endblock content %}

@@ -2,8 +2,10 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.forms import ModelForm
 
-from .models import Customer, Item, Address
+from .models import Customer, Item, Address, RentItems
+
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -27,6 +29,7 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
 
+
 class UserChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's**6
@@ -36,13 +39,14 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = ('username','email', 'first_name', 'last_name', 'phone_number', 'is_active')
+        fields = ('username', 'email', 'first_name', 'last_name', 'phone_number', 'is_active')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
 
 class ItemCreationForm(forms.ModelForm):
     class Meta:
@@ -61,26 +65,52 @@ class ItemCreationForm(forms.ModelForm):
                                         'match valid image extensions.')
         return itemImage
 
+
 class CreateAddressForm(forms.ModelForm):
     class Meta:
-        model : Address
+        model: Address
         fields = '__all__'
 
-class CustomUserCreationForm(UserCreationForm):
 
+class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = Customer
         fields = '__all__'
 
 
 class CustomUserChangeForm(UserChangeForm):
-
     class Meta:
         model = Customer
         fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
+
 
 class CustomUserSignupForm(UserCreationForm):
     class Meta:
         model = Customer
         fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
 
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class RentProductForm(ModelForm):
+    class Meta:
+        model = RentItems
+        fields = ('item','rentStartDate', 'renterName', 'renterPhoneNumber')
+        widgets = {
+            'rentStartDate': DateInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(RentProductForm, self).__init__(*args, **kwargs)
+        self.fields['item'].queryset = Item.objects.filter(itemAvaialable=True)
+
+
+class EndRentProductForm(ModelForm):
+    class Meta:
+        model = RentItems
+        fields = ('item','rentStartDate','rentEndDate', 'notes')
+        widgets = {
+            'rentEndDate': DateInput(),
+        }

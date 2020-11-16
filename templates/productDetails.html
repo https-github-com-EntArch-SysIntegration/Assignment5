@@ -22,6 +22,7 @@
       <p>{{ item.itemDescription|linebreaks }}</p>
       <input type="checkbox" name="itemAvaialable" value="itemAvaialable" {% if item.itemAvaialable %} checked {% endif %} disabled>
       <label for="itemAvaialable">Product Available</label>
+      <p>Added on: {{item.itemAddedDate}}</p>
     </div>
 
     <!-- Product Pricing -->
