@@ -49,7 +49,7 @@ def item_details(request, id):
                                 itemId=id)
 
     return render(request,
-                  'itemdetails.html',
+                  'itemDetails.html',
                   {'item': item})
 
 @login_required(login_url = '/users/login/')
