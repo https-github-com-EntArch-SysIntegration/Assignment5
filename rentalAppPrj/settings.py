@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'RentalApp',
     'crispy_forms',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

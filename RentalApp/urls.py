@@ -15,7 +15,9 @@ from .views import (
     updateRentItemView,
     rentDetailView,
     export_pdf,
-    export_csv)
+    export_csv,
+    EditAccountInfoView
+)
 from django.contrib.auth import views as auth_views
 
 app_name = 'RentalApp'
@@ -41,6 +43,7 @@ urlpatterns = [
         template_name = 'registration/changePassword.html',
         success_url = '/'
     ), name='changePassword'),
+    path('<int:pk>/accountDetails/',EditAccountInfoView.as_view(),name='accountDetails'),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),

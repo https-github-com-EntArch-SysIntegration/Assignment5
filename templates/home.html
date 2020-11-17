@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 <h1>Products</h1>
+<div class="padding">
+            <form method="get">
+                {{filter.form|crispy}} <input type="submit" value="Search" class="btn btn-info"/>
+            </form>
+    </div>
+
 <div id="home-row" class="row">
     {% for item in items %}
   <div id="home-column" class="column">
@@ -22,26 +29,4 @@
     </div>
     {% endfor %}
   </div>
-{% endblock %}
-{% block domready %}
-  var page = 1;
-  var empty_page = false;
-  var block_request = false;
-  $(window).scroll(function() {
-    var margin = $(document).height() - $(window).height() - 200;
-    if($(window).scrollTop() > margin && empty_page == false &&
-    block_request == false) {
-     block_request = true;
-      page += 1;
-      $.get('?page=' + page, function(data) {
-        if(data == '') {
-          empty_page = true;
-        }
-        else {
-          block_request = false;
-          $('#image-list').append(data);
-        }
-      });
-    }
-  });
 {% endblock %}

@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
@@ -5,7 +6,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Customer(AbstractUser):
-    phone_number = models.CharField(max_length=30, blank=True)
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex], max_length=30, blank=True)
 
 class Address(models.Model):
     addressId = models.AutoField(auto_created=True, primary_key=True)
@@ -29,6 +32,11 @@ class Address(models.Model):
     city = models.CharField(
         "City",
         max_length=1024,
+    )
+
+    state= models.CharField(
+        "State",
+        max_length=1024
     )
 
     country = models.CharField(
@@ -89,7 +97,9 @@ class RentItems(models.Model):
     rentStartDate = models.DateField()
     rentEndDate = models.DateField(null=True)
     renterName = models.CharField(max_length=1024)
-    renterPhoneNumber = models.CharField(max_length=30, blank=True)
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    renterPhoneNumber = models.CharField(validators=[phone_regex], max_length=30, blank=True)
     totalCost = models.FloatField(null=True)
     notes = models.TextField(null=True,blank=True)
 

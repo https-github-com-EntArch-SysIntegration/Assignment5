@@ -1,5 +1,4 @@
 import csv
-import datetime
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -17,12 +16,11 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 
-from .models import Category, Item, Address, RentItems
+from .models import Category, Item, Address, RentItems, Customer
 from .forms import CustomUserSignupForm,RentProductForm, EndRentProductForm
 import io
-from django.http import FileResponse
-from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table
+from reportlab.platypus import SimpleDocTemplate, Table
+from .filters import ProductFilter
 
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
@@ -30,6 +28,8 @@ def item_list(request):
     categories = Category.objects.all()
     items = Item.objects.filter(itemAvaialable=True)
     request.session["addressId"] = None
+    searchFilter = ProductFilter(request.GET,queryset=items)
+    items = searchFilter.qs
     if not request.user.is_anonymous:
         try:
             addresses = Address.objects.filter(customer=request.user)
@@ -41,7 +41,8 @@ def item_list(request):
     return render(request,
                   'home.html',
                   {'categories': categories,
-                   'items': items})
+                   'items': items,
+                   'filter':searchFilter})
 
 def item_details(request, id):
     item = get_object_or_404(Item,
@@ -86,7 +87,7 @@ class UpdateAddressView(LoginRequiredMixin,UpdateView):
 class AddAddressView(LoginRequiredMixin,CreateView):
     model = Address
     template_name = 'addAddress.html'
-    fields = ('address1','address2', 'zip_code','city','country')
+    fields = ('address1','address2', 'zip_code','city','state','country')
     login_url = '/users/login/'
 
     def form_valid(self, form):
@@ -271,3 +272,19 @@ def export_pdf(request):
 
     response.write(pdf_value)
     return response
+
+class EditAccountInfoView(LoginRequiredMixin,UpdateView):
+    model = Customer
+    template_name = 'accountDetails.html'
+    login_url = '/users/login/'
+    fields = ('first_name',
+              'last_name',
+              'email',
+              'phone_number')
+
+    def get_success_url(self):
+        return reverse('RentalApp:item_list')
+
+    def form_valid(self, form):
+        form.is_valid()
+        return super().form_valid(form)

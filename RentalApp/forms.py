@@ -112,5 +112,6 @@ class EndRentProductForm(ModelForm):
         model = RentItems
         fields = ('item','rentStartDate','rentEndDate', 'notes')
         widgets = {
+            'rentStartDate': DateInput(),
             'rentEndDate': DateInput(),
         }

@@ -20,6 +20,11 @@
     padding-left: 120%;
 }
 
+.padding{
+    padding-left: 50px  ;
+    padding-right: 50px;
+}
+
 .img3{
     width: 500px;
     overflow:auto;

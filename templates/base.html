@@ -25,10 +25,10 @@
           <!-- Logo Text
             <span class="text-uppercase font-weight-bold pad">Rental System</span> -->Rental System
         </a>
-     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+     <button class="navbar-toggler bg-info" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
       </button>
-           <div class="collapse navbar-collapse" id="navbarNav">
+           <div class="collapse navbar-collapse bg-info" id="navbarNav">
               {% if user.is_authenticated %}
             <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
               <li class="nav-item active" style="text-align: right">
@@ -52,6 +52,8 @@
 
                   <div class="dropdown-menu dropdown-menu-right bg-info"
                   aria-labelledby="userMenu">
+                      <a class="dropdown-item nav-link" href="{% url 'RentalApp:accountDetails' user.pk %}">Account details</a>
+                      <div class="dropdown-divider"></div>
                   <a class="dropdown-item nav-link" href="{% url 'RentalApp:changePassword' %}">Change password</a>
                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item nav-link" href="{% url 'logout' %}">

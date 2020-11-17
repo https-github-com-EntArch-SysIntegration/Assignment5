@@ -23,6 +23,10 @@
       <input type="checkbox" name="itemAvaialable" value="itemAvaialable" {% if item.itemAvaialable %} checked {% endif %} disabled>
       <label for="itemAvaialable">Product Available</label>
       <p>Added on: {{item.itemAddedDate}}</p>
+
+    </div>
+    <div class="product-description">
+      <p>{{item.itemDescription}}</p>
     </div>
 
     <!-- Product Pricing -->
