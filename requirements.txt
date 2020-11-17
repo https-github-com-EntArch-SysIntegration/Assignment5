@@ -1,8 +1,5 @@
 django==2.2.10
 django-crispy-forms
 Pillow==6.2.1
-psycopg2==2.8.4
-gunicorn
-django-heroku
 reportlab
 django-filter
