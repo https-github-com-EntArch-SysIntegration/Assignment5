@@ -102,9 +102,9 @@ class RentProductForm(ModelForm):
             'rentStartDate': DateInput(),
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(RentProductForm, self).__init__(*args, **kwargs)
-        self.fields['item'].queryset = Item.objects.filter(itemAvaialable=True)
+        self.fields['item'].queryset = Item.objects.filter(itemAvaialable=True,itemOwner=user)
 
 
 class EndRentProductForm(ModelForm):

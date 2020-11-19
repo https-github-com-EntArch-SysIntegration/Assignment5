@@ -191,6 +191,11 @@ class StartRentView(LoginRequiredMixin,CreateView):
     success_url = reverse_lazy('RentalApp:rental_history')
     login_url = '/users/login/'
 
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super().get_form_kwargs(*args, **kwargs)
+        kwargs['user'] = self.request.user.id
+        return kwargs
+
     def form_valid(self, form):
         form.is_valid()
         item = get_object_or_404(Item, itemId=form.instance.item.itemId)
@@ -200,9 +205,14 @@ class StartRentView(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
 class RentalHisoryView(LoginRequiredMixin,ListView):
-    model = RentItems
     template_name = 'rentalHist.html'
     login_url = '/users/login/'
+
+    def get(self, request):
+        items = Item.objects.filter(itemOwner=request.user)
+        rent_items =RentItems.objects.filter(item__in=items)
+        return render(request, self.template_name,
+                  {'rent_items': rent_items})
 
 class updateRentItemView(LoginRequiredMixin,UpdateView):
     model = RentItems
