@@ -7,12 +7,13 @@
  <div class="container1">
 
   <!-- Left Column / Headphones Image -->
+
+
+  <!-- Right Column -->
   <div class="left-column">
     <img src="{% if item.itemImage %}{{ item.itemImage.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}" alt="">
   </div>
 
-
-  <!-- Right Column -->
   <div class="right-column">
 
     <!-- Product Description -->
@@ -20,7 +21,7 @@
       <span>{{ item.category }}</span>
       <h1>{{ item.itemName }}</h1>
       <p>{{ item.itemDescription|linebreaks }}</p>
-         <p>{{item.itemOwner}} {% if not item.itemOwner.phone_number is None%}: {{item.itemOwner.phone_number}}</p> {%endif%}
+         <p>{{item.itemOwner}} {% if not item.itemOwner.phone_number is None%} {{item.itemOwner.phone_number}}</p> {%endif%}
         {%if not item.itemOwner.address %}
         <p>No address</p>
         {%else%}
@@ -34,9 +35,37 @@
 
     <!-- Product Pricing -->
     <div class="product-price">
-      <span>Rent: ${{ item.costPerItem }} per day</span>
+      <span>Rent: {{ item.costPerItem }} {{ currency }} per day</span>
     </div>
       <br><br><a href="{% url 'RentalApp:item_list' %}" class="btn btn-secondary ml-2">Back</a>
   </div>
  </div>
+{% if item.asin is not None %}
+<br>
+<div>
+     <div>
+         <h2>Amazon Lookup</h2>
+        <table class="table table-striped table-bordered table-hover">
+             <thead>
+                 <tr class ="bg-info">
+                     <th>Price ({{ currency }})</th>
+                     <th>Product Name</th>
+                     <th>Rating</th>
+                     <th>Reviews</th>
+                     <th>Is Prime</th>
+                 </tr>
+             </thead>
+             <tbody>
+                <tr>
+                    <td>{{ amazondetails.amzprice }}</td>
+                    <td>{{ amazondetails.amzname }}</td>
+                    <td>{{ amazondetails.amzreviewrating }}</td>
+                    <td>{{ amazondetails.amzreviewcount }}</td>
+                    <td>{{ amazondetails.amzprime }}</td>
+                </tr>
+             </tbody>
+         </table>
+     </div>
+ </div>
+{% endif %}
 {% endblock %}

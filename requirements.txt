@@ -3,3 +3,4 @@ django-crispy-forms
 Pillow==6.2.1
 reportlab
 django-filter
+requests

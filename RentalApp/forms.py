@@ -39,7 +39,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = ('username', 'email', 'first_name', 'last_name', 'phone_number', 'is_active')
+        fields = ('username', 'email', 'first_name', 'last_name', 'phone_number', 'view_currency', 'is_active')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -97,20 +97,20 @@ class DateInput(forms.DateInput):
 class RentProductForm(ModelForm):
     class Meta:
         model = RentItems
-        fields = ('item','rentStartDate', 'renterName', 'renterPhoneNumber')
+        fields = ('item', 'rentStartDate', 'renterName', 'renterPhoneNumber')
         widgets = {
             'rentStartDate': DateInput(),
         }
 
     def __init__(self, user, *args, **kwargs):
         super(RentProductForm, self).__init__(*args, **kwargs)
-        self.fields['item'].queryset = Item.objects.filter(itemAvaialable=True,itemOwner=user)
+        self.fields['item'].queryset = Item.objects.filter(itemAvaialable=True, itemOwner=user)
 
 
 class EndRentProductForm(ModelForm):
     class Meta:
         model = RentItems
-        fields = ('item','rentStartDate','rentEndDate', 'notes')
+        fields = ('item', 'rentStartDate', 'rentEndDate', 'notes')
         widgets = {
             'rentStartDate': DateInput(),
             'rentEndDate': DateInput(),
