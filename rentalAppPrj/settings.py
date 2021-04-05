@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'RentalApp',
     'crispy_forms',
     'django_filters',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +156,23 @@ SMS_BACKEND = 'sms.backends.twilio.SmsBackend'
 TWILIO_ACCOUNT_SID = 'AC93ff6226c3c927274718a6be9d2876dd'
 TWILIO_AUTH_TOKEN = '02ab9f4e2618bc5c5ea83a5d9bdc25a8'
 TWILIO_PHONE_NUMBER = '+14438154116'
+
+AUTHENTICATION_BACKENDS = (
+ 'django.contrib.auth.backends.ModelBackend',
+ 'allauth.account.auth_backends.AuthenticationBackend',
+ )
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
