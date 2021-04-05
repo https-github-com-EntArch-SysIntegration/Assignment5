@@ -82,7 +82,8 @@ def item_details(request, id):
 
     if currency != 'USD':
         offset = round(user.price_offset(), 4)
-        amazondetails['amzprice'] = round(amazondetails['amzprice'] * offset, 2)
+        if amazondetails is not None:
+            amazondetails['amzprice'] = round(amazondetails['amzprice'] * offset, 2)
         item.costPerItem = round(item.costPerItem * offset, 2)
 
     return render(request,
