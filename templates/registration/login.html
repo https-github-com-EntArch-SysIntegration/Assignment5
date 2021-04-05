@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 {% block title %}Log In{% endblock title %}
 
 {% block content %}
@@ -14,6 +15,8 @@
                             <button class="btn btn-success ml-2" type="submit">Log In</button>
                             <a href="{% url 'RentalApp:password_reset' %}" class="btn btn-secondary ml-2">
                                 Forgot Password</a>
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-secondary ml-2">
+                                Login with Google</a>
                         </form>
                     </div>
                 </div>
