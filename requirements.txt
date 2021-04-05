@@ -4,3 +4,4 @@ Pillow==6.2.1
 reportlab
 django-filter
 requests
+twilio==6.32.0

@@ -139,12 +139,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_USER_MODEL = 'RentalApp.Customer'
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mahi.kv8143@gmail.com'
-EMAIL_HOST_PASSWORD = 'Sunsilk@123'
+EMAIL_HOST_PASSWORD = 'Coconut@123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'mahi.kv8143@gmail.com'
-SERVER_EMAIL = 'mahi.kv8143@gmail.com'
+
+
+SMS_BACKEND = 'sms.backends.twilio.SmsBackend'
+TWILIO_ACCOUNT_SID = 'AC93ff6226c3c927274718a6be9d2876dd'
+TWILIO_AUTH_TOKEN = '02ab9f4e2618bc5c5ea83a5d9bdc25a8'
+TWILIO_PHONE_NUMBER = '+14438154116'

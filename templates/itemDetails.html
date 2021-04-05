@@ -38,7 +38,24 @@
       <span>Rent: {{ item.costPerItem }} {{ currency }} per day</span>
     </div>
       <br><br><a href="{% url 'RentalApp:item_list' %}" class="btn btn-secondary ml-2">Back</a>
+        <a href='#' onclick='overlay()' class="btn btn-primary ml-2">Contact Owner</a>
   </div>
+ </div>
+ <div id="overlay">
+    <h5 class="text-center pt-5">Contact Owner</h5>
+    <div class="row justify-content-center">
+                <form action="{% url 'RentalApp:send_email' item.pk%}" method="post">{% csrf_token %}
+                    <input type="text" name="username" value="Name"/><br>
+                    <input type="email" name="email" value="email"/><br>
+                    <textarea name="message" rows="4" cols="50">Message</textarea><br>
+                    {% if item.itemOwner.phone_number %}
+                        <input type="checkbox" name="sendSMS" value="sendSMS">
+                        <label for="sendSMS">Send a text message</label>
+                    {% endif %}
+                    <br><button class="btn btn-success ml-2" type="submit">Send</button>
+                    <a href='#' onclick='overlay()'>close</a>
+                </form>
+    </div>
  </div>
 {% if item.asin is not None %}
 <br>
@@ -68,4 +85,10 @@
      </div>
  </div>
 {% endif %}
+<script>
+function overlay() {
+	el = document.getElementById("overlay");
+	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+</script>
 {% endblock %}

@@ -8,6 +8,10 @@ from django.shortcuts import redirect
 
 # Create your views here.
 from reportlab.lib.styles import getSampleStyleSheet
+from twilio.rest import Client
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 from .forms import CustomUserCreationForm
 from django.shortcuts import render, get_object_or_404
@@ -348,3 +352,35 @@ class EditAccountInfoView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.is_valid()
         return super().form_valid(form)
+
+def sendMail(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    renter = request.POST['username']
+    email = request.POST['email']
+    message = request.POST['message']
+    ctx = {
+        'itemId' : item.pk,
+        'renter': renter,
+        'email': email,
+        'message': message
+    }
+    subject = renter+" is interested in your product "+item.itemName
+    message = render_to_string('conatctowner.html', ctx, request=request)
+    emails = [item.itemOwner.email]
+
+    msg = EmailMessage(subject, message, settings.EMAIL_HOST_USER, emails)
+    msg.content_subtype = "html"  # Main content is now text/html
+    msg.send(fail_silently=False)
+    if item.itemOwner.phone_number:
+        checkSMS = request.POST['sendSMS']
+        if checkSMS:
+            account_sid = settings.TWILIO_ACCOUNT_SID
+            auth_token = settings.TWILIO_AUTH_TOKEN
+            client = Client(account_sid, auth_token)
+            message = client.messages.create(
+                body="Hi, " + renter + " is intrested in your product "+item.itemName+". Conact information of "+renter+" is: "+email,
+                from_= settings.TWILIO_PHONE_NUMBER,
+                to= item.itemOwner.phone_number
+            )
+    return redirect('RentalApp:item_details',id=pk)
+
