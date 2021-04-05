@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('RentalApp.urls', namespace='RentalApp')),
     path('users/', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('', TemplateView.as_view(template_name='login.html')),
 ]
 
 if settings.DEBUG:
