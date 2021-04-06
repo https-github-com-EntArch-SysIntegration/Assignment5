@@ -37,8 +37,12 @@
     <div class="product-price">
       <span>Rent: {{ item.costPerItem }} {{ currency }} per day</span>
     </div>
+
       <br><br><a href="{% url 'RentalApp:item_list' %}" class="btn btn-secondary ml-2">Back</a>
-        <a href='#' onclick='overlay()' class="btn btn-primary ml-2">Contact Owner</a>
+
+      <a href="{% url 'RentalApp:checkout_page' %}" class="btn btn-warning ml-2">Rent</a>
+
+      <a href='#' onclick='overlay()' class="btn btn-primary ml-2">Contact Owner</a>
   </div>
  </div>
  <div id="overlay">
@@ -57,6 +61,7 @@
                 </form>
     </div>
  </div>
+
 {% if item.asin is not None %}
 <br>
 <div>
